@@ -215,3 +215,8 @@ zap:
     max-age: 0
     show-line: true
     log-in-console: true
+wechat:
+    app-id:  # 小程序appid
+    app-secret:     # 小程序密钥
+    public-app-id:  # 公众号appid
+    public-app-secret:     # 公众号appsecret

@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/jobs"
 	"time"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
@@ -29,6 +30,11 @@ func RunWindowsServer() {
 	if global.GVA_DB != nil {
 		system.LoadAll()
 	}
+
+	// 微信配置初始化
+	initialize.WechatInit()
+	// 初始化任务
+	jobs.CronInit()
 
 	Router := initialize.Routers()
 	Router.Static("/form-generator", "./resource/page")

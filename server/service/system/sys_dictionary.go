@@ -2,10 +2,11 @@ package system
 
 import (
 	"errors"
-
+	"fmt"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
 	"gorm.io/gorm"
+	"strings"
 )
 
 //@author: [piexlmax](https://github.com/piexlmax)
@@ -80,15 +81,23 @@ func (dictionaryService *DictionaryService) UpdateSysDictionary(sysDictionary *s
 //@return: err error, sysDictionary model.SysDictionary
 
 func (dictionaryService *DictionaryService) GetSysDictionary(Type string, Id uint, status *bool) (sysDictionary system.SysDictionary, err error) {
-	var flag = false
-	if status == nil {
-		flag = true
+	// 判断Type第一个字母是不是$
+	if Id > 0 || Type[0] != '$' {
+		err = global.GVA_DB.Where("(type = ? OR id = ?) and status = ?", Type, Id, true).Preload("SysDictionaryDetails", "status = ?", true).First(&sysDictionary).Error
 	} else {
-		flag = *status
+		err = global.GVA_DB.Where("(type = ? OR id = ?) and status = ?", Type, Id, true).First(&sysDictionary).Error
+		if err != nil {
+			return
+		}
+
+		// 分割字符串Type为数组
+		list := strings.Split(Type, "__")
+		table := list[0][1:]
+		key := list[1]
+		value := list[2]
+		err = global.GVA_DB.Raw(fmt.Sprintf("SELECT %s as value, %s as label from %s", key, value, table)).Scan(&sysDictionary.SysDictionaryDetails).Error
 	}
-	err = global.GVA_DB.Where("(type = ? OR id = ?) and status = ?", Type, Id, flag).Preload("SysDictionaryDetails", func(db *gorm.DB) *gorm.DB {
-		return db.Where("status = ?", true).Order("sort")
-	}).First(&sysDictionary).Error
+
 	return
 }
 
