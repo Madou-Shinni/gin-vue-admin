@@ -134,11 +134,12 @@ func (menuService *MenuService) getBaseChildrenList(menu *system.SysBaseMenu, tr
 //@param: menu model.SysBaseMenu
 //@return: error
 
-func (menuService *MenuService) AddBaseMenu(menu system.SysBaseMenu) error {
+func (menuService *MenuService) AddBaseMenu(menu system.SysBaseMenu) (uint, error) {
 	if !errors.Is(global.GVA_DB.Where("name = ?", menu.Name).First(&system.SysBaseMenu{}).Error, gorm.ErrRecordNotFound) {
-		return errors.New("存在重复name，请修改name")
+		return 0, errors.New("存在重复name，请修改name")
 	}
-	return global.GVA_DB.Create(&menu).Error
+	err := global.GVA_DB.Create(&menu).Error
+	return menu.ID, err
 }
 
 //@author: [piexlmax](https://github.com/piexlmax)
@@ -218,6 +219,7 @@ func (menuService *MenuService) GetMenuAuthority(info *request.GetAuthorityId) (
 }
 
 // UserAuthorityDefaultRouter 用户角色默认路由检查
+//
 //	Author [SliverHorn](https://github.com/SliverHorn)
 func (menuService *MenuService) UserAuthorityDefaultRouter(user *system.SysUser) {
 	var menuIds []string

@@ -91,6 +91,34 @@ func (autoApi *AutoCodeApi) CreateTemp(c *gin.Context) {
 		c.File("./ginvueadmin.zip")
 		_ = os.Remove("./ginvueadmin.zip")
 	}
+
+	// 文件名称 packageName
+	// name：路由Name path=name title：展示名称
+	userInfo := utils.GetUserInfo(c)
+	// 创建菜单
+	menu := system.SysBaseMenu{
+		MenuLevel: 0,
+		ParentId:  "0",
+		Path:      a.Abbreviation,
+		Name:      fmt.Sprintf("%s管理", a.Abbreviation),
+		Hidden:    false,
+		Component: fmt.Sprintf("view/%s.vue", a.HumpPackageName),
+		Sort:      0,
+		Meta:      system.Meta{Title: fmt.Sprintf("%s管理", a.Abbreviation), Icon: "aim"},
+	}
+	// 添加权限
+	// 菜单权限
+	//authorityId := utils.GetUserInfo(c).AuthorityId
+	menuId, err := menuService.AddBaseMenu(menu)
+	if err != nil {
+		global.GVA_LOG.Error("menu!", zap.Error(err))
+		return
+	}
+	authorityService.AddMenuAuthority(&system.SysAuthorityMenu{
+		AuthorityId: fmt.Sprintf("%d", userInfo.AuthorityId),
+		MenuId:      fmt.Sprintf("%d", menuId),
+	})
+	// api权限
 }
 
 // GetDB

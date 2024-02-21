@@ -228,6 +228,12 @@ func (authorityService *AuthorityService) SetMenuAuthority(auth *system.SysAutho
 	return err
 }
 
+// AddMenuAuthority 为角色增加menu
+func (authorityService *AuthorityService) AddMenuAuthority(auth *system.SysAuthorityMenu) error {
+	err := global.GVA_DB.Model(&system.SysAuthorityMenu{}).Attrs("").FirstOrCreate(&system.SysAuthorityMenu{AuthorityId: auth.AuthorityId}).Error
+	return err
+}
+
 //@author: [piexlmax](https://github.com/piexlmax)
 //@function: findChildrenAuthority
 //@description: 查询子角色
