@@ -235,11 +235,17 @@ return
 }
 ```
 
+### 扩展
+
+> 在autocode接口添加菜单和权限
+
+[sys_auto_code.go](server%2Fapi%2Fv1%2Fsystem%2Fsys_auto_code.go)
+
 ## 小程序开发基础
 
 ### 后端
 
-复制以下文件夹到项目根目录
+> 复制以下文件夹到项目根目录
 
 > [pkg](server%2Fpkg) 工具
 > 

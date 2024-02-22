@@ -95,6 +95,7 @@ func (autoApi *AutoCodeApi) CreateTemp(c *gin.Context) {
 		_ = os.Remove("./ginvueadmin.zip")
 	}
 
+	// 扩展菜单api权限
 	// 文件名称 packageName
 	// name：路由Name path=name title：展示名称
 	userInfo := utils.GetUserInfo(c)
