@@ -7,7 +7,6 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/example"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/model/test_autocode"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
@@ -51,7 +50,7 @@ func RegisterTables() {
 		example.ExaFile{},
 		example.ExaCustomer{},
 		example.ExaFileChunk{},
-		example.ExaFileUploadAndDownload{}, test_autocode.Category{}, test_autocode.Article{},
+		example.ExaFileUploadAndDownload{},
 	)
 	if err != nil {
 		global.GVA_LOG.Error("register table failed", zap.Error(err))

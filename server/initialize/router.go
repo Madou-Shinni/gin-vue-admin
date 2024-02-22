@@ -84,12 +84,6 @@ func Routers() *gin.Engine {
 		exampleRouter.InitFileUploadAndDownloadRouter(PrivateGroup)
 
 	}
-	{
-		test_autocodeRouter := router.RouterGroupApp.Test_autocode
-
-		test_autocodeRouter.InitCategoryRouter(PrivateGroup)
-		test_autocodeRouter.InitArticleRouter(PrivateGroup)
-	}
 
 	global.GVA_LOG.Info("router register success")
 	return Router
