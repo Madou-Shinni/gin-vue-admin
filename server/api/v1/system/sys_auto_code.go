@@ -104,7 +104,7 @@ func (autoApi *AutoCodeApi) CreateTemp(c *gin.Context) {
 		MenuLevel: 0,
 		ParentId:  "0",
 		Path:      fmt.Sprintf("%sManager", a.Abbreviation),
-		Name:      fmt.Sprintf("%s管理", a.Abbreviation),
+		Name:      fmt.Sprintf("%s管理", a.Description),
 		Hidden:    false,
 		Component: fmt.Sprintf("view/%s/%s.vue", a.HumpPackageName, a.HumpPackageName),
 		Sort:      0,
