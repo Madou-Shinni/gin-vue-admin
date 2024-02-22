@@ -33,6 +33,16 @@ $table__value__label
 
 > 获取微信accesstoken，jobs定时任务会自动获取只需要通过common中的方法获取即可
 
+注意：这里需要等完成初始化之后再添加配置，不然配置文件会被覆盖
+
+```yaml
+wechat:
+    app-id:  # 小程序appid
+    app-secret:     # 小程序密钥
+    public-app-id:  # 公众号appid
+    public-app-secret:     # 公众号appsecret
+```
+
 [wechat.go](server%2Fcommon%2Fwechat.go)
 
 ![img_2.png](img_2.png)
