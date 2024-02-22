@@ -1,5 +1,34 @@
 # 开发文档
 
+## 特点
+
+1. [x] 基于gin-vue-admin v2.6.0
+2. [x] 支持代码生成表关联查询
+3. [x] 支持代码生成同步设置菜单和api权限
+
+## 开发方式
+
+> 字典映射表
+
+表达式
+
+```
+$table__value__label
+```
+
+| 字典类型   | 字典值   | 字典标签   |
+|--------|-------|--------|
+| table  | value | label  |
+
+将category表的id映射到字典value，name映射到字典label
+
+![img.png](img.png)
+
+实现效果
+
+![img_1.png](img_1.png)
+
+
 ## 代码生成器
 
 ### 前端部分
