@@ -230,7 +230,11 @@ func (authorityService *AuthorityService) SetMenuAuthority(auth *system.SysAutho
 
 // AddMenuAuthority 为角色增加menu
 func (authorityService *AuthorityService) AddMenuAuthority(auth *system.SysAuthorityMenu) error {
-	err := global.GVA_DB.Model(&system.SysAuthorityMenu{}).Attrs("").FirstOrCreate(&system.SysAuthorityMenu{AuthorityId: auth.AuthorityId}).Error
+	var s system.SysAuthorityMenu
+	err := global.GVA_DB.Model(&system.SysAuthorityMenu{}).
+		Where("sys_base_menu_id = ? AND sys_authority_authority_id = ?", auth.MenuId, auth.AuthorityId).
+		Attrs(system.SysAuthorityMenu{AuthorityId: auth.AuthorityId, MenuId: auth.MenuId}).
+		FirstOrCreate(&s).Error
 	return err
 }
 

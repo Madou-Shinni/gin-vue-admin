@@ -99,10 +99,10 @@ func (autoApi *AutoCodeApi) CreateTemp(c *gin.Context) {
 	menu := system.SysBaseMenu{
 		MenuLevel: 0,
 		ParentId:  "0",
-		Path:      a.Abbreviation,
+		Path:      fmt.Sprintf("%sManager", a.Abbreviation),
 		Name:      fmt.Sprintf("%s管理", a.Abbreviation),
 		Hidden:    false,
-		Component: fmt.Sprintf("view/%s.vue", a.HumpPackageName),
+		Component: fmt.Sprintf("view/%s/%s.vue", a.HumpPackageName, a.HumpPackageName),
 		Sort:      0,
 		Meta:      system.Meta{Title: fmt.Sprintf("%s管理", a.Abbreviation), Icon: "aim"},
 	}
@@ -111,13 +111,17 @@ func (autoApi *AutoCodeApi) CreateTemp(c *gin.Context) {
 	//authorityId := utils.GetUserInfo(c).AuthorityId
 	menuId, err := menuService.AddBaseMenu(menu)
 	if err != nil {
-		global.GVA_LOG.Error("menu!", zap.Error(err))
+		global.GVA_LOG.Error("menuService.AddBaseMenu", zap.Error(err))
 		return
 	}
-	authorityService.AddMenuAuthority(&system.SysAuthorityMenu{
+	err = authorityService.AddMenuAuthority(&system.SysAuthorityMenu{
 		AuthorityId: fmt.Sprintf("%d", userInfo.AuthorityId),
 		MenuId:      fmt.Sprintf("%d", menuId),
 	})
+	if err != nil {
+		global.GVA_LOG.Error("authorityService.AddMenuAuthority", zap.Error(err))
+		return
+	}
 	// api权限
 }
 
