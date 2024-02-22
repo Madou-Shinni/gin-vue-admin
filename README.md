@@ -5,10 +5,11 @@
 1. [x] 基于gin-vue-admin v2.6.0
 2. [x] 支持代码生成表关联查询
 3. [x] 支持代码生成同步设置菜单和api权限
+4. [x] 支持多端同步微信accesstoken
 
 ## 开发方式
 
-> 字典映射表
+> 字典映射表，将字典映射到指定的表字段
 
 表达式
 
@@ -29,6 +30,12 @@ $table__value__label
 实现效果
 
 ![img_1.png](img_1.png)
+
+> 获取微信accesstoken，jobs定时任务会自动获取只需要通过common中的方法获取即可
+
+[wechat.go](server%2Fcommon%2Fwechat.go)
+
+![img_2.png](img_2.png)
 
 
 ## 代码生成器
