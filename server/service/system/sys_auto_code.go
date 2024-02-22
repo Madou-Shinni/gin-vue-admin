@@ -515,8 +515,8 @@ func (autoCodeService *AutoCodeService) addAutoMoveFile(data *tplData) {
 // @param: a *model.AutoCodeStruct
 // @return: err error
 
-func (autoCodeService *AutoCodeService) AutoCreateApi(a *system.AutoCodeStruct) (ids []uint, err error) {
-	apiList := []system.SysApi{
+func (autoCodeService *AutoCodeService) AutoCreateApi(a *system.AutoCodeStruct) (ids []uint, apiList []system.SysApi, err error) {
+	apiList = []system.SysApi{
 		{
 			Path:        "/" + a.Abbreviation + "/" + "create" + a.StructName,
 			Description: "新增" + a.Description,
@@ -567,7 +567,7 @@ func (autoCodeService *AutoCodeService) AutoCreateApi(a *system.AutoCodeStruct) 
 		}
 		return nil
 	})
-	return ids, err
+	return ids, apiList, err
 }
 
 func (autoCodeService *AutoCodeService) getNeedList(autoCode *system.AutoCodeStruct) (dataList []tplData, fileList []string, needMkdir []string, err error) {

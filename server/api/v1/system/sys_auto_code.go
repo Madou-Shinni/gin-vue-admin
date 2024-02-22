@@ -3,6 +3,7 @@ package system
 import (
 	"errors"
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
 	"net/url"
 	"os"
 	"strings"
@@ -63,14 +64,16 @@ func (autoApi *AutoCodeApi) CreateTemp(c *gin.Context) {
 	}
 	a.Pretreatment()
 	var apiIds []uint
+	var apiList []system.SysApi
 	if a.AutoCreateApiToSql {
-		if ids, err := autoCodeService.AutoCreateApi(&a); err != nil {
+		if ids, list, err := autoCodeService.AutoCreateApi(&a); err != nil {
 			global.GVA_LOG.Error("自动化创建失败!请自行清空垃圾数据!", zap.Error(err))
 			c.Writer.Header().Add("success", "false")
 			c.Writer.Header().Add("msg", url.QueryEscape("自动化创建失败!请自行清空垃圾数据!"))
 			return
 		} else {
 			apiIds = ids
+			apiList = list
 		}
 	}
 	a.PackageT = utils.FirstUpper(a.Package)
@@ -123,6 +126,15 @@ func (autoApi *AutoCodeApi) CreateTemp(c *gin.Context) {
 		return
 	}
 	// api权限
+	maps := casbinService.GetPolicyPathByAuthorityId(userInfo.AuthorityId)
+	for i := range apiList {
+		maps = append(maps, request.CasbinInfo{Path: apiList[i].Path, Method: apiList[i].Method})
+	}
+	err = casbinService.UpdateCasbin(userInfo.AuthorityId, maps)
+	if err != nil {
+		global.GVA_LOG.Error("casbinService.UpdateCasbin", zap.Error(err))
+		return
+	}
 }
 
 // GetDB
