@@ -1,5 +1,8 @@
 SHELL = /bin/bash
 
+# 获取git tag版本
+VERSION := v2.6.0
+
 #SCRIPT_DIR         = $(shell pwd)/etc/script
 #请选择golang版本
 BUILD_IMAGE_SERVER  = golang:1.18
@@ -76,3 +79,13 @@ plugin:
 	&& if [ -d "server/plugin/${PLUGIN}" ];then cp -r server/plugin/${PLUGIN} .plugin/${PLUGIN}/server/plugin/ ; else echo "OK!"; fi \
 	&& if [ -d "web/src/plugin/${PLUGIN}" ];then cp -r web/src/plugin/${PLUGIN} .plugin/${PLUGIN}/web/plugin/ ; else echo "OK!"; fi \
 	&& cd .plugin && zip -r ${PLUGIN}.zip ${PLUGIN} && mv ${PLUGIN}.zip ../ && cd ..
+
+#发布tag
+tag:
+	git tag -a $(VERSION) -m "Release $(VERSION)"
+	git push origin $(VERSION)
+
+#发布tag并强制覆盖
+force-tag:
+	git tag -f -a $(VERSION) -m "Release $(VERSION)"
+	git push -f origin $(VERSION)
