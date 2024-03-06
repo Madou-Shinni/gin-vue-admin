@@ -89,18 +89,18 @@ func RefreshPublicAccessToken() {
 	// 获取微信access token
 	result, err := wechatConfig.PubWxConfig.GetStableAccessToken(false)
 	if err != nil {
-		global.GVA_LOG.Error("刷新微信AccessToken失败", zap.Error(err))
+		global.GVA_LOG.Error("刷新微信公众号AccessToken失败", zap.Error(err))
 		return
 	}
 	if result.ErrCode != 0 {
-		global.GVA_LOG.Error("刷新微信AccessToken失败", zap.String("errmsg", result.ErrMsg))
+		global.GVA_LOG.Error("刷新微信公众号AccessToken失败", zap.String("errmsg", result.ErrMsg))
 		return
 	}
 
 	// 将access token缓存之中控服务器
 	_, err = tools.SetRedisStrResult[string](rdb, ctx, common.GetWeChatAccessTokenKey(appId), result.AccessToken, time.Second*time.Duration(result.ExpiresIn))
 	if err != nil {
-		global.GVA_LOG.Error("access token缓存之中控服务器失败", zap.Error(err))
+		global.GVA_LOG.Error("微信公众号access token缓存之中控服务器失败", zap.Error(err))
 		return
 	}
 }
