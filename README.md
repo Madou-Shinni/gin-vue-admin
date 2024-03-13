@@ -1,5 +1,9 @@
 # 开发文档
 
+## 为了您的使用方便，提供插件市场
+
+[微信插件](https://plugin.gin-vue-admin.com/#/layout/newPluginInfo?id=59)
+
 ## 特点
 
 1. [x] 基于gin-vue-admin v2.6.0
